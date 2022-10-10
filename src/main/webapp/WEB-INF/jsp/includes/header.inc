@@ -24,7 +24,7 @@
                 <ul class="nav nav-pills justify-content-end">
                     <li class="nav-item"><a href="${pageContext.request.contextPath}/index.action" class="nav-link ${fn:contains(pageContext.request.servletPath, 'index') ? 'active' : ''}" aria-current="page">Home</a></li>
                     <li class="nav-item"><a href="${pageContext.request.contextPath}/entorno.action" class="nav-link ${fn:contains(pageContext.request.servletPath, 'entorno') ? 'active' : ''}">Environment Variables</a></li>
-                    <li class="nav-item"><a href="${pageContext.request.contextPath}/db.action" class="nav-link ${fn:contains(pageContext.request.servletPath, 'db.action') ? 'active' : ''}">DB access</a></li>
+                    <li class="nav-item"><a href="${pageContext.request.contextPath}/db.action" class="nav-link ${fn:contains(pageContext.request.servletPath, 'db') ? 'active' : ''}">DB access</a></li>
                 </ul>
             </header>
         </div>
