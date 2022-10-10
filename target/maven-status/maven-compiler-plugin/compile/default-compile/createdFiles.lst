@@ -1,0 +1,6 @@
+com\nttdata\dar\ocpawssecret\controllers\DbController.class
+com\nttdata\dar\ocpawssecret\model\DBConnection.class
+com\nttdata\dar\ocpawssecret\controllers\EntornoController.class
+com\nttdata\dar\ocpawssecret\controllers\IndexController.class
+com\nttdata\dar\ocpawssecret\controllers\MyErrorController.class
+com\nttdata\dar\ocpawssecret\OcpAwsSecretApp.class
