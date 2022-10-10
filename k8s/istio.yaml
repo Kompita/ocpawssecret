@@ -1,0 +1,56 @@
+---
+######################################################
+############## - Destination Rule - ##################
+######################################################
+# apiVersion: networking.istio.io/v1alpha3
+# kind: DestinationRule
+# metadata:
+#   name: ${APP_NAME} 
+#   namespace: eva
+# spec:
+#   host: ${APP_NAME} 
+#   subsets:
+#     - name: v1
+#       labels:
+#         version: v1
+#   trafficPolicy:
+#     tls:
+#       mode: ISTIO_MUTUAL
+# ---
+#####################################################
+############## - Virtual Service - ##################
+#####################################################
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${APP_NAME} 
+  namespace: ${APP_NAMESPACE}
+spec:
+  hosts:
+    - ${APP_NAME} 
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ${APP_NAME} 
+            port:
+              number: 8080
+              
+---
+#####################################################
+############## - PeerAuthentication - ###############
+#####################################################
+# kind: PeerAuthentication
+# apiVersion: security.istio.io/v1beta1
+# metadata:
+#   name: ${APP_NAME} 
+#   # namespace: ${APP_NAMESPACE}
+# spec:
+#   mtls:
+#     mode: PERMISSIVE
+#   selector:
+#     matchLabels:
+#       app: ${APP_NAME} 
+---
