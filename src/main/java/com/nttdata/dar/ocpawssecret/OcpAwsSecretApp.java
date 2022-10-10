@@ -15,22 +15,14 @@ public class OcpAwsSecretApp extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity security) throws Exception {
-//        security.authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//              .and()
-//                .httpBasic();
-        security.csrf().disable();
+
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) 
             throws Exception 
     {
-        auth.inMemoryAuthentication()
-            .withUser("ocp")
-            .password("{noop}aws2022==")
-            .roles("USER");
+      
     }
     
     public static void main(String[] args) {
