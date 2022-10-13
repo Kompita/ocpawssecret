@@ -13,20 +13,33 @@ spec:
       storage: 1Gi
 ---
 
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "config-env-ocpawssecret"
+  labels:
+    app: "ocpawssecret"
+data:
+  DATASOURCE_URL: "jdbc:postgresql://localhost:5432/postgres" 
+  DATASOURCE_PWD: "gyKZGGMcT7"
+  DATASOURCE_USR: "postgres"
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${APP_NAME}
+  name: ocpawssecret
   generation: 1
   labels:
-    app: ${APP_NAME}    
+    app: ocpawssecret    
 spec:
   progressDeadlineSeconds: 600
-  replicas: ${REPLICAS}
+  replicas: 1
   revisionHistoryLimit: 10 
   selector:
     matchLabels:
-      app: ${APP_NAME}           
+      app: ocpawssecret           
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -35,11 +48,8 @@ spec:
   template:
     metadata:
       labels:
-        app: ${APP_NAME}
-        deployment: ${APP_NAME}      
-    annotations:
-        sidecar.istio.io/proxyCPU: "10m"
-        sidecar.istio.io/proxyMemory: "24Mi"        
+        app: ocpawssecret
+        deployment: ocpawssecret          
     spec:
       # ensure the scheduler distributes replicas evenly on the worker nodes
       affinity:
@@ -52,13 +62,13 @@ spec:
                     - key: app
                       operator: In
                       values:
-                      - ${APP_NAME}
+                      - ocpawssecret
                 topologyKey: "kubernetes.io/hostname"
       containers:     
       - envFrom:
           - configMapRef:
-              name: config-env-${APP_NAME}
-        image: ocpawssecret:1.0
+              name: config-env-ocpawssecret
+        image: vanessaruiz/ocp-aws-secret
         imagePullPolicy: Always
         securityContext:
           privileged: false
@@ -67,21 +77,17 @@ spec:
             drop:
               - all
             add: ["NET_ADMIN", "SYS_TIME"]
-        name: ${APP_NAME}
+        name: ocpawssecret
         ports:
         - containerPort: 8080
           protocol: TCP
-        readinessProbe:
-          exec:
-            command: ['${READINESSPROBE}']
-          initialDelaySeconds: 30
         resources:
           limits:
-            cpu: ${LIMITS_CPU}
-            memory: ${LIMITS_MEMORY}Gi
+            cpu: 1
+            memory: 1Gi
           requests:
-            cpu: ${REQUESTS_CPU}
-            memory: ${REQUESTS_MEMORY}Gi
+            cpu: 0.5
+            memory: 0.5Gi
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
