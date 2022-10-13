@@ -68,7 +68,7 @@ spec:
       - envFrom:
           - configMapRef:
               name: config-env-ocpawssecret
-        image: vanessaruiz/ocp-aws-secret
+        image: vanessaruiz/ocp-aws-secret:1.1
         imagePullPolicy: Always
         securityContext:
           privileged: false
